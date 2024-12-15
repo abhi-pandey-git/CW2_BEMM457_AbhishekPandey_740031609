@@ -1,6 +1,39 @@
 # Import necessary libraries
 import pandas as pd
 
+# Load datasets
+file_path1 = "Absence_3term201819_nat_reg_la_sch.csv"
+file_path2 = "Absence_3term201819_national_characteristics.csv"
+
+# Load the datasets
+dataset1 = pd.read_csv(file_path1)
+dataset2 = pd.read_csv(file_path2)
+
+# Data Cleaning for Dataset 1
+# Removing duplicate rows
+dataset1_cleaned = dataset1.drop_duplicates()
+
+# Handling missing values
+dataset1_cleaned.fillna({
+    col: dataset1_cleaned[col].mean() if dataset1_cleaned[col].dtype != 'object' else "Unknown"
+    for col in dataset1_cleaned.columns
+}, inplace=True)
+
+# Data Cleaning for Dataset 2
+dataset2_cleaned = dataset2.drop_duplicates()
+
+# Handling missing values
+dataset2_cleaned.fillna({
+    col: dataset2_cleaned[col].mean() if dataset2_cleaned[col].dtype != 'object' else "Unknown"
+    for col in dataset2_cleaned.columns
+}, inplace=True)
+
+# Save cleaned datasets
+dataset1_cleaned.to_csv("Cleaned_Absence_3term201819_nat_reg_la_sch.csv", index=False)
+dataset2_cleaned.to_csv("Cleaned_Absence_3term201819_national_characteristics.csv", index=False)
+
+print("Data cleaned and saved successfully.")
+
 # File paths
 file_path_char = "ks2mats_ud_school_char.csv"
 file_path_prog_rwm = "ks2mats_ud_school_prog_rwm.csv"
